@@ -1,0 +1,9 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+{% for p in post %}
+   <h4>{{p.title}}</h4>
+    <img src="{{p.image.url}} " alt="image">
+{% endfor %}
+
+{% endblock body %}
