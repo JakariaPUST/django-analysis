@@ -1,11 +1,12 @@
 {% extends 'basic.html' %}
 
   {% block body %}
+  {% load crispy_forms_tags %}
   Contact Page
 <hr>
 <form method="post">
 {% csrf_token %}
-  {{form}}
+  {{form|crispy}}
 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
