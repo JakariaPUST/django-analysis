@@ -3,6 +3,7 @@ from django.utils.timezone import now
 from PIL import Image
 from django.utils.text import slugify
 from multiselectfield import MultiSelectField
+from django.contrib.auth.models import User
 
 class Contact(models.Model):
     name = models.CharField(max_length=150)
@@ -10,6 +11,15 @@ class Contact(models.Model):
     phone = models.CharField(max_length=20)
     content = models.TextField()
 
+    def __str__(self):
+        return self.name
+
+class Subject(models.Model):
+    name= models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+class Classs_in(models.Model):
+    name= models.CharField(max_length=100)
     def __str__(self):
         return self.name
 
@@ -24,6 +34,7 @@ class Post(models.Model):
         ('hindi', 'hindi'),
         ('mandarin', 'mandarin'),
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, default=title)
@@ -36,6 +47,10 @@ class Post(models.Model):
     image = models.ImageField(default="default.jpg", upload_to="education/images")
 
     medium = MultiSelectField(max_length=100, max_choices=4, choices=MEDIUM, default='english')
+    
+    subject=models.ManyToManyField(Subject,related_name='subject_set')
+
+    class_in=models.ManyToManyField(Classs_in,related_name='class_set')
 
     def save(self, *args, **kwargs):
         self.slug=slugify(self.title)
