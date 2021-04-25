@@ -6,6 +6,7 @@ from .models import Contact,Post, Subject
 from .forms import ContactForm, PostForm
 from django.views.generic import FormView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 
 class ContactView(FormView):
@@ -14,6 +15,7 @@ class ContactView(FormView):
     success_url='/' #or i can write like after form-invalid functions
     def form_valid(self, form):
         form.save()
+        messages.success(self.request, 'Form Successfully submitted')
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -99,6 +101,7 @@ def postcreate(request):
             obj=form.save(commit=False)
             obj.user=request.user
             obj.save()
+            messages.success(request, 'Form Successfully submitted') #also used: messages.(info/debug/error/warning)
             # sub=form.cleaned_data['subject']
             # for i in sub:
             #     obj.subject.add(i)
