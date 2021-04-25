@@ -7,6 +7,20 @@
 <form method="post">
 {% csrf_token %}
   {{form|crispy}}
+  
+  {% comment %} {{form.name.errors}}
+  {{form.name.label_tag}}
+  {{form.name|as_crispy_field}}
+  {{form.name.help_text}} {% endcomment %}
+
+{% comment %} {% for info in form %}
+{{info.errors}}
+  {{info.label_tag}}
+  {{info}}
+  {{info.help_text}} 
+{% endfor %} {% endcomment %}
+
+
 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

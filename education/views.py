@@ -86,7 +86,14 @@ def subjectview(request):
     return render(request, 'education/subjectview.html', {'subject':subject, 'subpost':subpost})
 
 def postcreate(request):
+    # initials={
+    # 'title':"My Title is",
+    # 'email':"jakaria.pust@",
+    # 'salary':"2000",
+    # 'details':"My Though is"}
     if request.method == "POST":
+
+        # form=PostForm(request.POST,request.FILES, initial=initials)
         form=PostForm(request.POST,request.FILES)
         if form.is_valid():
             obj=form.save(commit=False)
@@ -103,6 +110,7 @@ def postcreate(request):
             # return HttpResponse("Success")
             
     else:
+        # form= PostForm(initial=initials)
         form= PostForm()
     return render(request, 'education/postcreate.html', {'form':form})
 
