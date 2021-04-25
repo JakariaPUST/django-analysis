@@ -23,7 +23,7 @@ class ContactForm2(forms.ModelForm):
         if len(num_Of_word) > 3:
             self.add_error('name', "Name can have max 3 words")
         else:
-            value
+            return value
 
 
 
