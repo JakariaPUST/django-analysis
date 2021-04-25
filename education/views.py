@@ -4,22 +4,38 @@ from django.views import View
 
 from .models import Contact,Post, Subject
 from .forms import ContactForm, PostForm
+from django.views.generic import FormView, ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.urls import reverse_lazy
 
 
-class ContactView(View):
+class ContactView(FormView):
     form_class = ContactForm
     template_name = 'contact.html'
-    def get(self, request, *args, **kwargs):
-        form =self.form_class()
-        return render(request, self.template_name, {'form':form})
+    success_url='/' #or i can write like after form-invalid functions
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
-    def post(self, request, *args, **kwargs):
-        form =self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse("SUCCESS")
-        return render (request, self.template_name, {'form':form})
+# class ContactView(View):
+#     form_class = ContactForm
+#     template_name = 'contact.html'
+#     def get(self, request, *args, **kwargs):
+#         form =self.form_class()
+#         return render(request, self.template_name, {'form':form})
+
+
+#     def post(self, request, *args, **kwargs):
+#         form =self.form_class(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse("SUCCESS")
+#         return render (request, self.template_name, {'form':form})
 
 
 # Create your views here.
@@ -32,6 +48,30 @@ class ContactView(View):
 #         form= ContactForm()
 
 #     return render(request, 'contact.html', {'form':form})
+
+
+
+class postView(ListView):
+    template_name = "education/postlist.html"
+    model=Post
+    context_object_name="posts"
+    # queryset= Post.objects.filter(user=1)
+    queryset= Post.objects.all()
+    def get_context_data(self, *args, **kwargs):
+        context=super().get_context_data(*args, **kwargs)
+        context['posts']=context.get('object_list')
+        context['msg']="this is post list"
+        return context
+
+class postDetailView(DetailView):
+    template_name = "education/postdetail.html"
+    model=Post
+    context_object_name="postdetail"
+    def get_context_data(self, *args, **kwargs):
+        context=super().get_context_data(*args, **kwargs)
+        context['posts']=context.get('object_list')
+        context['msg']="this is individual post"
+        return context
 
 
 def postview(request):
@@ -52,6 +92,35 @@ def postcreate(request):
             obj=form.save(commit=False)
             obj.user=request.user
             obj.save()
+            # sub=form.cleaned_data['subject']
+            # for i in sub:
+            #     obj.subject.add(i)
+            #     obj.save()
+            # class_in=form.cleaned_data['classs_in']
+            # for i in class_in:
+            #     obj.class_in.add(i)
+            #     obj.save()
+            # return HttpResponse("Success")
+            
     else:
         form= PostForm()
     return render(request, 'education/postcreate.html', {'form':form})
+
+
+
+
+class postEditView(UpdateView):
+    model=Post
+    form_class = PostForm
+    context_object_name="postedit"
+    template_name = "education/postcreate.html"
+    def get_success_url(self):
+        id=self.object.id
+        return reverse_lazy('education:postdetail', kwargs={'pk':id})
+
+class postDeleteView(DeleteView):
+    model=Post
+    context_object_name="postdelete"
+    template_name = "education/postdelete.html"
+    success_url=reverse_lazy('education:postlist')
+

@@ -1,0 +1,15 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+{{msg}}<br>
+{% for p in posts %}
+<div class="card col-md-12">
+<div class="card-header"> <h4>{{p.title}}</h4></div>
+    <div class="card-body">
+   <h5>By {{p.user.username}}</h5> 
+   <a href="/education/postdetail/{{p.id}}">Read More...</a> <br>
+   </div>
+</div>
+{% endfor %}
+
+{% endblock body %}

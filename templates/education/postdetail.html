@@ -1,0 +1,30 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+<h1> Post detail </h1>
+
+<div class="card col-md-12">
+    <div class="card-header"> <h4>Title: {{postdetail.title}}</h4></div>
+    <div class="card-body row">
+    <div class="card-body col-5"> <img class="image-rounded circle" src="{{postdetail.image.url}}" width="300" height="250" alt="img"></div>
+
+    <div class="card-body col-5"> 
+    Created at= {{postdetail.created_at}}<br> 
+    Subject= {% for s in postdetail.subject.all %}
+    {{s.name}}<br>{% endfor %}
+    Class= {% for s in postdetail.class_in.all %}
+    {{s.name}}<br>{% endfor %}
+        Category= {{postdetail.category}}<br> 
+        Medium= {{postdetail.medium}}<br> 
+        Salary= {{postdetail.salary}} TK<br>
+        Available= {% if postdetail.available %} Yes{% else %}No {% endif %} <br>
+        Details= {{postdetail.details}}<br> 
+        {% if request.user == postdetail.user %}
+        <h4><a href="/education/edit/{{postdetail.id}}">Edit</a> </h4>
+        <h4><a href="/education/delete/{{postdetail.id}}">Delete</a> </h4>
+        {% endif %}
+    </div>
+   </div>
+</div>
+
+{% endblock body %}
