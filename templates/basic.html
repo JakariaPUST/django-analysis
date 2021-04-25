@@ -53,6 +53,8 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 {% endfor %}
+<p>Time: {% now "h:i A" %} </p>
+<p>Date: {% now "D jS F Y" %} </p>
 
   {% block body %}{% endblock body %}
   </div>

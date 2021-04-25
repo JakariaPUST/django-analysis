@@ -1,5 +1,5 @@
 {% extends 'basic.html' %}
-
+{% load humanize %}
 {% block body %}
 <h1> Post detail </h1>
 
@@ -9,7 +9,7 @@
     <div class="card-body col-5"> <img class="image-rounded circle" src="{{postdetail.image.url}}" width="300" height="250" alt="img"></div>
 
     <div class="card-body col-5"> 
-    Created at= {{postdetail.created_at}}<br> 
+    By: {{postdetail.user.username}}   Created : {{postdetail.created_at|naturaltime}}<br> 
     Subject= {% for s in postdetail.subject.all %}
     {{s.name}}<br>{% endfor %}
     Class= {% for s in postdetail.class_in.all %}
