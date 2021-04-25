@@ -1,0 +1,11 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+
+   <h4>{{subject.name}}</h4>
+
+{% comment %} {% for subjectwisepost in subject.subject_set.all %} {% endcomment %}
+{% for subjectwisepost in subpost %}
+    {{subjectwisepost.title}}  by: {{subjectwisepost.user.username}} <br>
+{% endfor %}
+{% endblock body %}

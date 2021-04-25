@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Contact,Post
+from .models import Contact,Post, Subject
 from .forms import ContactForm, PostForm
 # Create your views here.
 def contact(request):
@@ -17,6 +17,12 @@ def postview(request):
     post=Post.objects.all()
 
     return render(request, 'education/post.html', {'post':post})
+
+def subjectview(request):
+    subject=Subject.objects.get(name='English')
+    subpost=subject.subject_set.all()
+
+    return render(request, 'education/subjectview.html', {'subject':subject, 'subpost':subpost})
 
 def postcreate(request):
     if request.method == "POST":

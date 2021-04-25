@@ -61,4 +61,5 @@ class Post(models.Model):
             img.thumbnail (output_size)
             img.save(self.image.path)
     def __str__(self):
-        return self.title
+        return self.title + "by: " + self.user.username
+        
