@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'education',
+    'session',
     'crispy_forms',
     'multiselectfield',
 ]

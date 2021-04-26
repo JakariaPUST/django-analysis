@@ -39,6 +39,8 @@
             <a class="dropdown-item" href="/education/postlist/">View</a>
           </div>
         </li>
+
+
       </ul>
       <form method="post" action="/education/search/" class="form-inline my-2 my-lg-0">
       {% csrf_token %}
@@ -46,19 +48,41 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
 
+      <ul class="ml-3 navbar-nav">
+      
+       
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link btn btn-secondary btn-sm" href="/session/logout/">Logout</a>
+        </li>
+        {% else %}
+          <li class="nav-item mr-2">
+            <a class="nav-link btn btn-secondary btn-sm" href="/session/signup/">Sign Up</a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link btn btn-secondary btn-sm" href="/session/login/">Login</a>
+          </li>
+        {% endif %}
+      </ul>
+
     </div>
   </nav>
+
+
+
   <div class="container mt-5">
-  {% for message in messages %}
-  <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
-  {{message}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-</div>
-{% endfor %}
-<p>Time: {% now "h:i A" %} </p>
-<p>Date: {% now "D jS F Y" %} </p>
+
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    {% endfor %}
+    <p>Time: {% now "h:i A" %} </p>
+    <p>Date: {% now "D jS F Y" %} </p>
 
   {% block body %}{% endblock body %}
+
   </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
