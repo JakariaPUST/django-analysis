@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import postview, postcreate, subjectview, ContactView, postView, postDetailView, postEditView, postDeleteView
+from .views import postview, postcreate, subjectview, ContactView, postView, postDetailView, postEditView, postDeleteView, searchresult, filter
 from .forms import ContactForm2
 app_name='education'
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('post/', postview , name="post"),
     path('create/', postcreate , name="create"),
     path('subject/', subjectview , name="subject"),
+    path('search/', searchresult , name="search"),
+    path('filter/', filter , name="filter"),
 ]

@@ -1,0 +1,17 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+{{msg}}<br>
+{% for p in results %}
+<h1> Search posts</h1>
+<div class="card col-md-12">
+<div class="card-header"> <h4>{{p.title}}</h4></div>
+    <div class="card-body">
+   <h5>By {{p.user.username}}</h5> <br>
+   <h5>By {{p.category}}</h5> <br>
+   <a href="/education/postdetail/{{p.id}}">Read More...</a> <br>
+   </div>
+</div>
+{% endfor %}
+
+{% endblock body %}
