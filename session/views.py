@@ -56,7 +56,7 @@ def registration(request):
             email=EmailMessage(mail_subject,message, to=[send_mail])
             email.send()
             messages.success(request,'Successfully created account!')
-            return redirect('session:login')
+            return redirect('login')
     else:
         form=SignUpForm()
     return render(request, 'session/signup.html', {'form': form})
@@ -69,7 +69,7 @@ def changepassword(request):
             update_session_auth_hash(request, form.user)
             messages.success(request, "Successfully Changed Password!")
             form.save()
-            return redirect('session:login')
+            return redirect('login')
     else:
         form=PasswordChangeForm(user=request.user)
     return render(request, 'session/changepass.html', {'form': form})
