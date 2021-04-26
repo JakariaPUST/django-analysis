@@ -14,6 +14,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 
 from .forms import SignUpForm
+from .forms import UserProfileForm
+from .models import UserProfile
 
 UserModel=get_user_model()
 
@@ -97,3 +99,38 @@ def changepassword(request):
     else:
         form=PasswordChangeForm(user=request.user)
     return render(request, 'session/changepass.html', {'form': form})
+
+
+
+
+
+
+
+
+def userProfile(request):
+    try:
+        instance= UserProfile.objects.get(user=request.user) #if user exists or not?
+    except UserProfile.DoesNotExist:
+        instance=None
+    if request.method=="POST":
+        if instance:
+            form=UserProfileForm(request.POST,request.FILES, instance=instance)
+        else:
+            form=UserProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            obj=form.save(commit=False)
+            obj.user=request.user
+            obj.save()
+            messages.success(request, "successfully Saved Your profile")
+            return redirect('home')
+    else:
+        form=UserProfileForm(instance=instance)
+    context={
+        'form':form
+    }
+    return render(request,'session/userproCreate.html',context)
+
+
+def ownerProfile(request):
+    user=request.user
+    return render (request, 'session/userprofile.html', {'user':user})
