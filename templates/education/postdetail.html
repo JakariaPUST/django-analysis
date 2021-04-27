@@ -4,16 +4,15 @@
 <h1> Post detail </h1>
 
 <div class="card col-md-12">
-    <div class="card-header"> <h4>Title: {{postdetail.title}}</h4></div>
+    <div class="card-header"> <h4>Title: {{postdetail.uppercase}}</h4></div>
     <div class="card-body row">
     <div class="card-body col-5"> <img class="image-rounded circle" src="{{postdetail.image.url}}" width="300" height="250" alt="img"></div>
 
     <div class="card-body col-5"> 
     By: {{postdetail.user.username}}   Created : {{postdetail.created_at|naturaltime}}<br> 
-    Subject= {% for s in postdetail.subject.all %}
-    {{s.name}}<br>{% endfor %}
-    Class= {% for s in postdetail.class_in.all %}
-    {{s.name}}<br>{% endfor %}
+    Subject= {{ postdetail.get_subject_name }} <br>
+    Class= {{ postdetail.get_class_name }} <br>
+
         Category= {{postdetail.category}}<br> 
         Medium= {{postdetail.medium}}<br> 
         Salary= {{postdetail.salary}} TK<br>

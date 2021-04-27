@@ -18,6 +18,10 @@ class Subject(models.Model):
     name= models.CharField(max_length=100)
     def __str__(self):
         return self.name
+    def get_total_post_count(self):
+        return self.subject_set.all().count()
+    def get_total_post_list(self):
+        return self.subject_set.all()
 class Classs_in(models.Model):
     name= models.CharField(max_length=100)
     def __str__(self):
@@ -61,5 +65,28 @@ class Post(models.Model):
             img.thumbnail (output_size)
             img.save(self.image.path)
     def __str__(self):
-        return self.title + "by: " + self.user.username
+        return self.title + " by: " + self.user.username
+    def get_subject_name(self):
+        sub=self.subject.all()
+        subjects=""
+        for i in sub:
+            subjects = subjects + str(i.name) + ", "
+        return subjects
+    def get_class_name(self):
+        sub=self.class_in.all()
+        classes=""
+        for i in sub:
+            classes = classes + str(i.name) + ", "
+        return classes
+    def proppercase(self):
+        return self.title.title()
+    def uppercase(self):
+        return self.title.upper()
+
+    def details_short(self):
+        details_words=self.details.split(' ')
+        if len(details_words) >10:
+            return ' '.join(details_words[:10])+ "..."
+        else:
+            return self.details
         
