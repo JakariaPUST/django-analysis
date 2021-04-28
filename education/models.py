@@ -66,6 +66,13 @@ class Post(models.Model):
 
     class_in=models.ManyToManyField(Classs_in,related_name='class_set')
 
+    likes= models.ManyToManyField(User, related_name='like_set')
+    views= models.ManyToManyField(User, related_name='view_set')
+    def total_likes(self):
+        return self.likes.count() 
+    def total_views(self):
+        return self.views.count() 
+
     def save(self, *args, **kwargs):
         self.slug=slugify(self.title)
         super(Post, self).save(*args, **kwargs)

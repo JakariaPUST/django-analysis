@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.db.models import Q
 import requests
 import json
+from django.http import HttpResponseRedirect
 
 
 
@@ -75,10 +76,17 @@ class postDetailView(DetailView):
     template_name = "education/postdetail.html"
     model=Post
     context_object_name="postdetail"
+   
     def get_context_data(self, *args, **kwargs):
+        self.object.views.add(self.request.user)
+        liked=False
+        if self.object.likes.filter(id=self.request.user.id).exists():
+            liked=True
+
         context=super().get_context_data(*args, **kwargs)
         context['posts']=context.get('object_list')
-        context['msg']="this is individual post"
+        context['liked']=liked
+        context['msg']="this is individual post also like options"
         print('----------------------------------------------------')
         print(context['posts'])
         return context
@@ -186,7 +194,7 @@ def filter(request):
 
 
 
-
+# API INTEGRATION
 def postview(request):
     api_request= requests.get(f"https://jsonplaceholder.typicode.com/posts")
     try:
@@ -194,3 +202,16 @@ def postview(request):
     except:
         api="Error"
     return render(request,'education/postview.html',{'api':api})
+
+
+
+# LIKE BUTTON FUNCTIONALITY
+
+def likepost(request,id):
+    if request.method=="POST":
+        post=Post.objects.get(id=id)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
