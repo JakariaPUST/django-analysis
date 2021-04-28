@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 
-from .models import Contact,Post, Subject, Classs_in
+from .models import Contact,Post, Subject, Classs_in, Comment
 from .forms import ContactForm, PostForm
 from django.views.generic import FormView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
@@ -11,6 +11,10 @@ from django.db.models import Q
 import requests
 import json
 from django.http import HttpResponseRedirect
+
+from .templatetags import tag
+
+
 
 
 
@@ -84,11 +88,20 @@ class postDetailView(DetailView):
             liked=True
 
         context=super().get_context_data(*args, **kwargs)
-        context['posts']=context.get('object_list')
-        context['liked']=liked
-        context['msg']="this is individual post also like options"
-        print('----------------------------------------------------')
-        print(context['posts'])
+        post=context.get('object')
+        comments=Comment.objects.filter(post=post.id, parent=None)
+        replies=Comment.objects.filter(post=post.id).exclude(parent=None)
+        DictofReply={}
+        for reply in replies:
+            if reply.parent.id not in DictofReply.keys():
+                DictofReply[reply.parent.id]=[reply]
+            else:
+                DictofReply[reply.parent.id].append(reply)
+        
+        context['post']= context.get('object')
+        context['liked']= liked
+        context['comments']= comments
+        context['DictofReply']= DictofReply
         return context
 
 
@@ -214,4 +227,25 @@ def likepost(request,id):
             post.likes.remove(request.user)
         else:
             post.likes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+
+# COMMENT FUNCTIONALITY
+
+def addcomment(request):
+    if request.method=="POST":
+        comment=request.POST['comment']
+        parentid=request.POST['parentid']
+        postid=request.POST['postid']
+        post=Post.objects.get(id=postid)
+        if parentid:
+            parent=Comment.objects.get(id=parentid)
+            newcom= Comment(text=comment, user=request.user, post=post, parent=parent)
+            newcom.save()
+        else:
+            newcom= Comment(text=comment, user=request.user, post=post)
+            newcom.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
