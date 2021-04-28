@@ -75,6 +75,8 @@ class postDetailView(DetailView):
         context=super().get_context_data(*args, **kwargs)
         context['posts']=context.get('object_list')
         context['msg']="this is individual post"
+        print('----------------------------------------------------')
+        print(context['posts'])
         return context
 
 
