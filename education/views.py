@@ -8,6 +8,10 @@ from django.views.generic import FormView, ListView, DetailView, UpdateView, Cre
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Q
+import requests
+import json
+
+
 
 class ContactView(FormView):
     form_class = ContactForm
@@ -179,3 +183,14 @@ def filter(request):
         return render (request, 'education/search.html', context)
             
     
+
+
+
+
+def postview(request):
+    api_request= requests.get(f"https://jsonplaceholder.typicode.com/posts")
+    try:
+        api=json.loads(api_request.content)
+    except:
+        api="Error"
+    return render(request,'education/postview.html',{'api':api})
