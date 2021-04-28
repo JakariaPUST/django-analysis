@@ -5,6 +5,16 @@ from django.utils.text import slugify
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import User
 
+
+#custom model manager
+
+class PostManager(models.Manager):
+    def sorted(self,title):
+        return self.order_by(title)
+    def less_than(self,size):
+        return self.filter(salary__lt=size)
+
+
 class Contact(models.Model):
     name = models.CharField(max_length=150)
     email = models.CharField(max_length=150)
@@ -90,3 +100,5 @@ class Post(models.Model):
         else:
             return self.details
         
+    objects=models.Manager() #buildin manager
+    items=PostManager() #Custom manager
