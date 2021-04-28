@@ -6,6 +6,9 @@
 <div class="card col-md-12">
     <div class="card-header"> <h4>Title: {{postdetail.uppercase}}</h4></div>
     
+    <div class="card-body">
+    <div class="fb-like" data-href="http://127.0.0.1:8000/education/postdetail/{{postdetail.id}}/" data-width="100" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+    </div>
     <div class="card-body row">
     <div class="card-body col-5"> <img class="image-rounded circle" src="{{postdetail.image.url}}" width="300" height="250" alt="img"></div>
 
@@ -24,6 +27,12 @@
         <h4><a href="/education/delete/{{postdetail.id}}">Delete</a> </h4>
         {% endif %}
     </div>
+    <div class="card-body">
+        {% comment %} <div class="fb-comments" data-href="http://127.0.0.1:8000/education/postdetail/2/" data-width="300" data-numposts="6"></div> {% endcomment %}
+        <div class="fb-comments" data-href="http://127.0.0.1:8000/education/postdetail/{{postdetail.id}}/" data-width="400" data-numposts="6"></div>
+    
+    </div>
+
    </div>
 </div>
 
