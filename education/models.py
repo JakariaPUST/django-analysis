@@ -127,3 +127,19 @@ class Comment(models.Model):
         return self.user.username + ": " + self.text[0:15]
 
 
+
+
+
+
+
+class PostFile(models.Model):
+    image = models.ImageField(upload_to="education/images")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='images')
+    def save( self, *args, **kwargs):
+        super(PostFile, self).save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        if img.height > 300 or img.width > 300 :
+            output_size =(300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)

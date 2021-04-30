@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 
@@ -249,3 +249,28 @@ def addcomment(request):
             newcom= Comment(text=comment, user=request.user, post=post)
             newcom.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+from .forms import  FileModelForm
+from .models import PostFile
+def addphoto(request, id):
+    post=Post.objects.get(id=id)
+    if request.method=="POST":
+        form=FileModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            image=form.cleaned_data['image']
+            obj=PostFile(image=image, post=post)
+            obj.save()
+            messages.success(request, 'SUccessfully uploaded image')
+            return redirect(f'/education/postdetail/{id}/')
+    else:
+        form=FileModelForm()
+    context={
+        'form':form,
+        'id':id
+    }
+    return render(request,'education/addphoto.html',context)
+
+
+    
