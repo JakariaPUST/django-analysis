@@ -139,10 +139,18 @@ MEDIA_URL ="/media/"
 # email msg(in the email account you have to enable IMP in setting and also enabled the less secure app access in mail account)  )
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+<<<<<<< HEAD
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'OTF Team <>'
+=======
+EMAIL_HOST_USER = 'Your mail@gmail.com'
+EMAIL_HOST_PASSWORD = 'Your pass'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'OTF Team <Your mail@gmail.com'
+>>>>>>> 06ee246a9e0b13c594c67477c641d25532ee61af
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
