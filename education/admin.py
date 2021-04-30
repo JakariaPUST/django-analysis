@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact, Post, Subject, Classs_in, Comment, PostFile
+from .models import Contact, Post, Subject, Classs_in, Comment, PostFile, District
 from django.utils.html import format_html
 from django.utils import timezone
 
@@ -71,5 +71,6 @@ admin.site.register(Subject)
 admin.site.register(Classs_in)
 admin.site.register(Comment)
 admin.site.register(PostFile)
+admin.site.register(District)
 
 
