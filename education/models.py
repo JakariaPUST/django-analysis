@@ -120,11 +120,7 @@ class Post(models.Model):
     items=PostManager() #Custom manager
 
 
-
-
-
-
-
+# to add Comments
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -135,11 +131,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.username + ": " + self.text[0:15]
 
-
-
-
-
-
+# to add multiple images
 
 class PostFile(models.Model):
     image = models.ImageField(upload_to="education/images")
@@ -152,3 +144,4 @@ class PostFile(models.Model):
             output_size =(300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
