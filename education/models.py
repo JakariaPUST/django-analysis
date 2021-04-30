@@ -44,7 +44,7 @@ class District(models.Model):
     def __str__(self):
         return self.name
 
-        
+
 
 class Post(models.Model):
     CATEGORY={
@@ -70,7 +70,7 @@ class Post(models.Model):
     image = models.ImageField(default="default.jpg", upload_to="education/images")
 
     medium = MultiSelectField(max_length=100, max_choices=4, choices=MEDIUM, default='english')
-    
+    district=models.CharField(max_length=100, null=True, blank=True)
     subject=models.ManyToManyField(Subject,related_name='subject_set')
 
     class_in=models.ManyToManyField(Classs_in,related_name='class_set')

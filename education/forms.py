@@ -50,10 +50,12 @@ class ContactForm2(forms.ModelForm):
         #     'content' : 'Your help Content',
 
         # }
+from .fields import ListTextWidget
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['user','id','created_at','slug']
+        exclude = ['user','id','created_at','slug','likes', 'views']
         widgets ={
             'class_in':forms.CheckboxSelectMultiple(attrs={
                 'multiple':True,
@@ -62,7 +64,10 @@ class PostForm(forms.ModelForm):
                 'multiple':True,
             })
         }
-
+    def __init__(self,*args, **kwargs):
+        _district_set=kwargs.pop('district_set',None)
+        super(PostForm,self).__init__(*args,**kwargs)
+        self.fields['district'].widget=ListTextWidget(data_list=_district_set, name='district-set')
 
 
 from .models import PostFile
