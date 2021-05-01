@@ -5,7 +5,7 @@ from django.utils import timezone
 
 # CUSTOM ADMIN PANEL
 admin.site.site_header = 'EducationMUST Admin Panel'
-admin.site.site_title = 'TuitionBD Admin Panel'
+admin.site.site_title = 'EducationMUST Admin Panel'
 admin.site.index_title = ''
 
 

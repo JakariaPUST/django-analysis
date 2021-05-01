@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Account, withdraw
+import datetime
+from django.utils import timezone
 # Create your views here.
 
 
@@ -26,7 +28,9 @@ def accountBalanceCalculation(request):
         obj2.account=obj
         obj2.user= i.user
         obj2.prev_amnt= totalamnts
+        # obj2.current_amnt= obj2.prev_amnt
         obj2.current_amnt= totalamnts
+
         obj2.save()
 
 
@@ -45,9 +49,12 @@ def withdrawView(request):
     # obj.account=acc
     # obj.user= request.user
     obj.transaction_id = transaction_id
+    obj.requisation_amnt=requisation_amnt
+
     temp_amt = obj.total_cashout_amnt + requisation_amnt
     obj.total_cashout_amnt= temp_amt
     obj.current_amnt= obj.prev_amnt - temp_amt
+    obj.modified_at=timezone.now()
     obj.save()
 
 

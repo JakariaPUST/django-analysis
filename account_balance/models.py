@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
+
+
 # Create your models here.
 
 class Account(models.Model):
@@ -30,8 +32,11 @@ class withdraw(models.Model):
     transaction_id=models.CharField(max_length=100,blank=True, null=True)
     status=models.BooleanField(default=False)
 
-    created_at=models.DateTimeField(default=now)
-    modified_at=models.DateTimeField(default=now)
+    # created_at=models.DateTimeField(default=now)
+    created_at=models.DateTimeField(auto_now_add=True)
+    # modified_at=models.DateTimeField(default=now)
+
+    modified_at=models.DateTimeField("modified date")
 
 
 
