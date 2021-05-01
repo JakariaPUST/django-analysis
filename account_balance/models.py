@@ -32,11 +32,16 @@ class withdraw(models.Model):
     transaction_id=models.CharField(max_length=100,blank=True, null=True)
     status=models.BooleanField(default=False)
 
+    #purchase percentage
+    prev_pur_tot=models.FloatField(blank=True, null=True, default=0)
+    cashout_pur_tot=models.FloatField(default=0)
+    current_pur_tot=models.FloatField(blank=True, null=True, default=0)
+
     # created_at=models.DateTimeField(default=now)
     created_at=models.DateTimeField(auto_now_add=True)
-    # modified_at=models.DateTimeField(default=now)
+    modified_at=models.DateTimeField(auto_now=True)
 
-    modified_at=models.DateTimeField("modified date")
+    # modified_at=models.DateTimeField("modified date")
 
 
 
