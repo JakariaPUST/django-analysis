@@ -1,7 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from .models import Account, withdraw
 import datetime
 from django.utils import timezone
+from .forms import withdrawForm
+
+
+
 # Create your views here.
 
 
@@ -19,19 +25,6 @@ def accountBalanceCalculation(request):
         esp=i.esp_amnt
         incentive=i.incentive_amnt
         totalamnts=(incentive+esp+ehp+middle+prantic+ref+pur)
-
-
-        purchase_percent= (pur/100)*totalamnts #calculation percentage of purchase commission
-        print("--------------------- total pur---------------------")
-        print(pur)
-
-        print("--------------------- percase commissions percentage------------")
-        print(purchase_percent)
-
-        print("--------------------- total amnt---------------------")
-        print(totalamnts)
-
-
 
 
         obj.total_amnt_WoP=totalamnts
@@ -56,41 +49,49 @@ def accountBalanceCalculation(request):
 
 
 def withdrawView(request):
-    obj=withdraw.objects.filter(user__id=request.user.id).first()
+    if request.method == "POST":
+        form=withdrawForm(request.POST)
+        if form.is_valid():
+            requisation_amnt=form.cleaned_data['requisation_amnt']
+            print('requisation_amnt-----------------------------------')
+            print(requisation_amnt)
+            obj=withdraw.objects.filter(user__id=request.user.id).first()
 
-    
+            # purchase percenetage calculated for 10%
+            purchase_percentage=(obj.prev_pur_tot/obj.prev_amnt)*100
+            print("purchase_percentage checkup for 10%")
+            print(purchase_percentage)
 
-    requisation_amnt=30
-    transaction_id='1kfTxx56jlj'
+            if purchase_percentage>=10 and obj.prev_amnt>=1: #check the conditions for withdraw
+                # requisation_amnt=30 #input from user
+                transaction_id='1kfTxx56jlj' #input from admin
 
-    # pur_per_amnt=10
+                obj.transaction_id = transaction_id
+                obj.requisation_amnt=requisation_amnt
 
-    
-
-    obj.transaction_id = transaction_id
-    obj.requisation_amnt=requisation_amnt
-
-    temp_amt = obj.total_cashout_amnt + requisation_amnt
-    obj.total_cashout_amnt= temp_amt
-    obj.current_amnt= obj.prev_amnt - temp_amt
-
-
-    #pur_per_amnt  #it's calculation needed
-
-    x = obj.prev_pur_tot
-    print("---------------- purchase --------")
-    
-    pur_per_amnt= (10/100)* x
-    print(pur_per_amnt)
+                temp_amt = obj.total_cashout_amnt + requisation_amnt 
+                obj.total_cashout_amnt= temp_amt
+                obj.current_amnt= obj.prev_amnt - temp_amt
 
 
-    y = obj.cashout_pur_tot + pur_per_amnt
-    obj.cashout_pur_tot =  y
-    obj.current_pur_tot= x - y
+                x = obj.prev_pur_tot
+                print("---------------- purchase --------")
+                
+                pur_per_amnt= (10/100)* x
+                print(pur_per_amnt)
 
 
-    # obj.modified_at=timezone.now()
-    obj.save()
+                y = obj.cashout_pur_tot + pur_per_amnt
+                obj.cashout_pur_tot =  y
+                obj.current_pur_tot= x - y
 
+                # obj.modified_at=timezone.now()
+                return redirect('/education/postlist')
 
-    return render(request,'account_balance/withdraw.html')
+        else:
+            print("errorrrrr")
+
+    else:
+        form=withdrawForm()
+
+    return render(request,'account_balance/withdraw.html', {'form': form})

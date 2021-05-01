@@ -1,7 +1,22 @@
 {% extends 'basic.html' %}
-
+{% load crispy_forms_tags %}
 {% block body %}
 
-<h1>withdraw withdraw withdraw </h1>
+<h1 class="text-center">withdraw withdraw withdraw </h1> <hr>
+<div class="card mt-5">
+    <div class="card-header text-center"><h5>Submit withdraw</h5></div>
+    <div class="card-body">
+
+        <div class="col-md-6 offset-md-3">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                
+                <button type="submit" class="btn btn-primary">withdraw</button>
+            </form>
+        </div>
+
+    </div>
+</div>
 
 {% endblock body %}
