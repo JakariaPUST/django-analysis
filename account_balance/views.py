@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import Account, withdraw
+from .models import Account, withdraw, tax, taxDetails
 import datetime
 from django.utils import timezone
 from .forms import withdrawForm
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -67,15 +68,42 @@ def withdrawView(request):
                 obj.transaction_id = transaction_id
                 obj.requisation_amnt=requisation_amnt
 
+
+
+
+
                 temp_amt = obj.total_cashout_amnt + requisation_amnt 
                 obj.total_cashout_amnt= temp_amt
                 obj.current_amnt= obj.prev_amnt - temp_amt
+                
+
+                #cutting the tax 10 %
+                tax_percentage_amnt=(10/100)* requisation_amnt
+                after_tax_bal=requisation_amnt- tax_percentage_amnt
+                print("------------ after_tax_bal ------------- is:")
+                print(after_tax_bal)
+
+
+    
+                abc=User.objects.get(id=request.user.id)
+                obj3=taxDetails()
+                obj3.user=abc
+                obj3.withdra=obj
+                obj3.tax_prev= tax_percentage_amnt
+                obj3.tax_curr= tax_percentage_amnt
+                obj3.tax_amount_tot= obj3.tax_amount_tot + tax_percentage_amnt
+                obj3.save()
+
+
+
+
+
 
 
                 x = obj.prev_pur_tot
-                print("---------------- purchase --------")
-                
                 pur_per_amnt= (10/100)* x
+
+                print("-------------- purchase amnt in 10 percent scale--------")
                 print(pur_per_amnt)
 
 

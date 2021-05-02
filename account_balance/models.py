@@ -53,16 +53,17 @@ class tax(models.Model):
     def __str__(self):
         return self.tax_country
 
-
-
 class taxDetails(models.Model):
-    user= user=models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-    tax_amount=models.FloatField(default=0)
+    withdra=models.ForeignKey(withdraw, on_delete=models.CASCADE)
+    user=models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE)
+
+    tax_prev=models.FloatField(default=0)
+    tax_curr=models.FloatField(default=0)
+    tax_amount_tot=models.FloatField(default=0)
+
     tax_id=models.CharField(max_length=100)
     tax_pay_date=models.DateTimeField(auto_now=True)
     tax_info_law=models.CharField(max_length=155, blank=True, null=True)
     tax_given_area=models.CharField(max_length=100,blank=True, null=True)
     tax_medium=models.CharField(max_length=100, blank=True, null=True)
     tax_description=models.CharField(max_length=100, blank=True, null=True)
-    def __str__(self):
-        return self.tax_id

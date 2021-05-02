@@ -5,3 +5,6 @@ admin.site.register(Account)
 admin.site.register(withdraw)
 admin.site.register(tax)
 admin.site.register(taxDetails)
+
+
+
