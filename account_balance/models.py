@@ -14,7 +14,6 @@ class Account(models.Model):
     esp_amnt=models.FloatField()
     incentive_amnt=models.FloatField()
     user=models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-
     total_amnt_WoP= models.FloatField()
 
 
@@ -45,3 +44,25 @@ class withdraw(models.Model):
 
 
 
+
+
+class tax(models.Model):
+    tax_country=models.CharField(max_length=100, blank=True, null=True)
+    tax_percentage=models.FloatField(blank=True, null=True, default=0)
+    country_tax_field=models.CharField(max_length=100, blank=True, null=True,default=0)
+    def __str__(self):
+        return self.tax_country
+
+
+
+class taxDetails(models.Model):
+    user= user=models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    tax_amount=models.FloatField(default=0)
+    tax_id=models.CharField(max_length=100)
+    tax_pay_date=models.DateTimeField(auto_now=True)
+    tax_info_law=models.CharField(max_length=155, blank=True, null=True)
+    tax_given_area=models.CharField(max_length=100,blank=True, null=True)
+    tax_medium=models.CharField(max_length=100, blank=True, null=True)
+    tax_description=models.CharField(max_length=100, blank=True, null=True)
+    def __str__(self):
+        return self.tax_id

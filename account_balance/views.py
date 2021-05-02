@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.contrib import messages
 from .models import Account, withdraw
 import datetime
 from django.utils import timezone
 from .forms import withdrawForm
-
 
 
 # Create your views here.
@@ -26,7 +26,6 @@ def accountBalanceCalculation(request):
         incentive=i.incentive_amnt
         totalamnts=(incentive+esp+ehp+middle+prantic+ref+pur)
 
-
         obj.total_amnt_WoP=totalamnts
         obj.save()
 
@@ -38,17 +37,16 @@ def accountBalanceCalculation(request):
         obj2.prev_amnt= totalamnts
         # obj2.current_amnt= obj2.prev_amnt
         obj2.current_amnt= totalamnts
-
-
         obj2.prev_pur_tot = pur
-
         obj2.save()
-
 
     return render(request,'account_balance/show.html')
 
 
 def withdrawView(request):
+    tt=Account.objects.filter().values_list('total_amnt_WoP')
+    ttt=tt[0]
+
     if request.method == "POST":
         form=withdrawForm(request.POST)
         if form.is_valid():
@@ -84,14 +82,21 @@ def withdrawView(request):
                 y = obj.cashout_pur_tot + pur_per_amnt
                 obj.cashout_pur_tot =  y
                 obj.current_pur_tot= x - y
-
+                obj.save()
                 # obj.modified_at=timezone.now()
-                return redirect('/education/postlist')
+                messages.success(request, 'Your request is accepted!')
+                return redirect('/account_balance/withdraw/')
 
         else:
             print("errorrrrr")
 
     else:
         form=withdrawForm()
+    
+    context={
+        'form': form,
+        'ttt': ttt,
+    }
 
-    return render(request,'account_balance/withdraw.html', {'form': form})
+    return render(request,'account_balance/withdraw.html', context)
+    
