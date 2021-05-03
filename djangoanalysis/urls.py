@@ -26,4 +26,5 @@ urlpatterns = [
     path('education/', include('education.urls')),
     path('session/', include('session.urls')),
     path('account_balance/', include('account_balance.urls')),
+    path('multivalue_submit/', include('multivalue_submit.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
