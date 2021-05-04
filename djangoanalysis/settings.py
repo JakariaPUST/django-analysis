@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'account_balance',
     'multivalue_submit',
+    'api_transaction',
 ]
 
 MIDDLEWARE = [

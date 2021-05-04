@@ -27,4 +27,5 @@ urlpatterns = [
     path('session/', include('session.urls')),
     path('account_balance/', include('account_balance.urls')),
     path('multivalue_submit/', include('multivalue_submit.urls')),
+    path('transaction/', include('api_transaction.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

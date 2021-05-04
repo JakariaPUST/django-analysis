@@ -16,6 +16,10 @@ class Account(models.Model):
     user=models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     total_amnt_WoP= models.FloatField()
 
+    def Total_Amt(self):
+        return self.purchase_amnt+self.ref_amnt+self.prantic_amnt+self.middle_amnt+self.ehp_amnt+self.esp_amnt+self.incentive_amnt
+
+
 
 class withdraw(models.Model):
     account=models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -54,7 +58,7 @@ class tax(models.Model):
         return self.tax_country
 
 class taxDetails(models.Model):
-    withdra=models.ForeignKey(withdraw, on_delete=models.CASCADE)
+    withdra=models.ForeignKey(withdraw,  on_delete=models.CASCADE)
     user=models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE)
 
     tax_prev=models.FloatField(default=0)
