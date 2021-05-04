@@ -1,1 +1,23 @@
 <h1>Hello withdraw</h1>
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+
+<div class="card mt-5">
+    
+    <div class="card-body">
+
+        <div class="col-md-6 offset-md-3">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                
+                <button type="submit" class="btn btn-primary">withdraw</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock body %}

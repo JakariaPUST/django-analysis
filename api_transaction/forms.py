@@ -6,5 +6,5 @@ from .models import Withdraw
 
 class withdrawForm(forms.ModelForm):
     class Meta:
-        model = withdraw
+        model = Withdraw
         fields = ['requisition']
