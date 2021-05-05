@@ -30,13 +30,13 @@ class TaxSetup(models.Model):
 
 # Create your models here.
 class Withdraw(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     requisition = models.FloatField()
     tax = models.FloatField(default=0)
     vat = models.FloatField(default=0)
     transaction_cost = models.FloatField(default=0)
     user = models.ForeignKey(User,related_name='usr', on_delete=models.CASCADE)
-    status = models.BooleanField()
+    status = models.BooleanField(default=False)
 
 class Tax(models.Model):
     withdraw = models.OneToOneField(Withdraw, related_name='wthdrw', on_delete=models.CASCADE)

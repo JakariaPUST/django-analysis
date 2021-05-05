@@ -2,6 +2,9 @@
 {% extends 'basic.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
+<h1>Available Amount Balance: {{ balance }}</h1>
+<h1>Pending Cashout Amount: {{ pending_wd_amt }}</h1>
+<h1>Total Cashouted Amount: {{ wd_total_amt }}</h1>
 
 
 <div class="card mt-5">

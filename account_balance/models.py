@@ -6,15 +6,15 @@ from django.utils.timezone import now
 # Create your models here.
 
 class Account(models.Model):
-    purchase_amnt=models.FloatField()
-    ref_amnt=models.FloatField()
-    prantic_amnt=models.FloatField()
-    middle_amnt=models.FloatField()
-    ehp_amnt=models.FloatField()
-    esp_amnt=models.FloatField()
-    incentive_amnt=models.FloatField()
-    user=models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-    total_amnt_WoP= models.FloatField()
+    purchase_amnt=models.FloatField(default=0)
+    ref_amnt=models.FloatField(default=0)
+    prantic_amnt=models.FloatField(default=0)
+    middle_amnt=models.FloatField(default=0)
+    ehp_amnt=models.FloatField(default=0)
+    esp_amnt=models.FloatField(default=0)
+    incentive_amnt=models.FloatField(default=0)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    total_amnt_WoP= models.FloatField(default=0)
 
     def Total_Amt(self):
         return self.purchase_amnt+self.ref_amnt+self.prantic_amnt+self.middle_amnt+self.ehp_amnt+self.esp_amnt+self.incentive_amnt
