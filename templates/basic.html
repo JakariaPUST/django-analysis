@@ -31,10 +31,13 @@
         <li class="nav-item">
           <a class="nav-link" href="/admin">Admin</a>
         </li>
-
-
         <li class="nav-item">
           <a class="nav-link" href="/account_balance/accntbal/">Account</a>
+        </li>
+
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="/transaction/">Transaction</a> -->
+          <a class="nav-link" href="{% url 'api_transaction:withdraw_index' %}">Transaction</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/account_balance/withdraw/">Withdraw</a>

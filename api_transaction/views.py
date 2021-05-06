@@ -48,7 +48,7 @@ def WithdrawView(request):
                 wd = Withdraw()
                 wd.requisition = requisation_amnt
                 wd.date = timezone.now()
-                # wd.tax = 0
+                wd.tax = requisation_amnt * 0.1
                 # wd.vat = 0
                 # wd.transaction_cost = requisation_amnt * 0.05
                 wd.user = request.user
@@ -56,6 +56,9 @@ def WithdrawView(request):
                 tx = Tax()
                 wd.save()
                 tx.withdraw = wd
+                tx.cashout_amt = requisation_amnt-requisation_amnt * 0.1
+                tx.tax_paid_amt = requisation_amnt * 0.1
+                tx.user= request.user
                 tx.save()
                 form=withdrawForm()
                 # withdraw_sum_amt = Withdraw.objects.filter(user__id=usrID).aggregate(Sum('requisition'))
@@ -83,13 +86,19 @@ def WithdrawView(request):
         wd_total_amt = 0
     balance = t_amt-wd_total_amt
     print(withdraw_sum_amt)
-    
+    wdraw = Tax.objects.filter().last()
+
+
+    # print("pppppppppppp: " + str(wdraw[0].cashout_amt))
+    print(wdraw.cashout_amt)
 
     context = {
         'form': form,
         'balance': balance,
         'wd_total_amt': withdraw_total_amt,
-        'pending_wd_amt': pendint_withdraw_sum_amt
+        'pending_wd_amt': pendint_withdraw_sum_amt,
+        'wdraw':wdraw,
+        'reuuest_amt':  wdraw.cashout_amt+wdraw.tax_paid_amt
     }
  
     return render(request, 'api_transaction/withdraw_index.html', context)

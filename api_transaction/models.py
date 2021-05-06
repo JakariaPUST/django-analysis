@@ -38,15 +38,20 @@ class Withdraw(models.Model):
     user = models.ForeignKey(User,related_name='usr', on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
+
 class Tax(models.Model):
     withdraw = models.OneToOneField(Withdraw, related_name='wthdrw', on_delete=models.CASCADE)
+    cashout_amt = models.FloatField(default=0)
+    tax_paid_amt = models.FloatField(blank=True, null=True)
     taxID = models.CharField(max_length=500, blank=True, null=True)
     tax_paid_date = models.DateTimeField(blank=True, null=True)
-    tax_paid_amt = models.FloatField(blank=True, null=True)
+    # tax_paid_amt = models.FloatField(blank=True, null=True)
     tax_info_law = models.TextField(blank=True, null=True)
     tax_given_area = models.TextField(blank=True, null=True)
     tax_medium = models.CharField(max_length=500,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    
+    user = models.ForeignKey(User,related_name='tax_usr', on_delete=models.CASCADE)
     taxperiodtype = models.ForeignKey(TaxPeriodType, blank=True, null=True, on_delete=models.SET_NULL) 
     created_office_person = models.ForeignKey(Office_Person, blank=True, null=True, on_delete=models.SET_NULL) 
 

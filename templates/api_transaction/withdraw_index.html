@@ -1,10 +1,55 @@
-<h1>Hello withdraw</h1>
+<!-- <h1>Hello withdraw</h1> -->
 {% extends 'basic.html' %}
 {% load crispy_forms_tags %}
 {% block body %}
-<h1>Available Amount Balance: {{ balance }}</h1>
-<h1>Pending Cashout Amount: {{ pending_wd_amt }}</h1>
-<h1>Total Cashouted Amount: {{ wd_total_amt }}</h1>
+<style>
+    .withdraw-left::after{
+        content: "";
+        position:absolute;
+        right: 0;
+        bottom: 0;
+        height:90px;
+        width:3px;
+        background: red;
+    }
+</style>
+<div class="row">
+    <div class="withdraw-left col-md-6">
+        <fieldset>
+            <legend>Withdraw Information:</legend>
+        <h5>Available Amount Balance: {{ balance }}</h5>
+        <h5>Pending Cashout Amount: {{ pending_wd_amt }}</h5>
+        <h5>Total Cashouted Amount: {{ wd_total_amt }}</h5> 
+    </fieldset>
+    </div>
+    <div class="withdraw-right col-md-6">
+        <div>
+            <span>
+                <fieldset>
+                    <legend>Tax Information:</legend>
+                <h5>Cashout Amount : {{ wdraw.cashout_amt }}</h5>
+                <h5>Cashout Tax Amount: {{ wdraw.tax_paid_amt }}</h5>
+
+                <h5>Total request cashout amount: {{reuuest_amt}}</h5>
+
+             
+            </fieldset>
+            </span>
+
+        </div>
+        
+     
+
+    </div>
+</div>
+
+
+
+
+
+
+<hr>
+
 
 
 <div class="card mt-5">
